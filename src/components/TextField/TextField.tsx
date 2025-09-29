@@ -8,7 +8,6 @@ type Props = {
   placeholder?: string;
   required?: boolean;
   onChange?: (newValue: string) => void;
-  imgUrl?: string;
 };
 
 function getRandomDigits() {

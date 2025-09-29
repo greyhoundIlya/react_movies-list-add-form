@@ -1,19 +1,12 @@
 import { useState } from 'react';
 import { TextField } from '../TextField';
-
-type MovieType = {
-  title: string;
-  description: string;
-  imgUrl: string;
-  imdbUrl: string;
-  imdbId: string;
-};
+import { Movie } from '../../types/Movie';
 
 type Props = {
-  onAdd: (movie: MovieType) => void;
+  onAdd: (movie: Movie) => void;
 };
 
-export const NewMovie = ({ onAdd }: Props) => {
+export const NewMovie: React.FC<Props> = ({ onAdd }: Props) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [imgUrl, setImgUrl] = useState('');
@@ -21,24 +14,23 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
 
-  const resetForm = () => {
+  const isFormValid =
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!isFormValid) {
+      return;
+    }
+
+    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
     setTitle('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
     setDescription('');
-    setCount(count + 1);
+    setCount(prev => prev + 1);
   };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
-    resetForm();
-  };
-
-  const isFormValid = Boolean(
-    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim(),
-  );
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
