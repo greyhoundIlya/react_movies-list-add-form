@@ -21,20 +21,24 @@ export const NewMovie = ({ onAdd }: Props) => {
   const [imdbId, setImdbId] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
-    setCount(count + 1);
+  const resetForm = () => {
     setTitle('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
     setDescription('');
+    setCount(count + 1);
   };
 
-  const isFormValid =
-    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onAdd({ title, description, imgUrl, imdbUrl, imdbId });
+    resetForm();
+  };
+
+  const isFormValid = Boolean(
+    title.trim() && imgUrl.trim() && imdbUrl.trim() && imdbId.trim(),
+  );
 
   return (
     <form className="NewMovie" key={count} onSubmit={handleSubmit}>
@@ -60,6 +64,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Image URL"
         value={imgUrl}
         onChange={setImgUrl}
+        required
       />
 
       <TextField
@@ -67,6 +72,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Imdb URL"
         value={imdbUrl}
         onChange={setImdbUrl}
+        required
       />
 
       <TextField
@@ -74,6 +80,7 @@ export const NewMovie = ({ onAdd }: Props) => {
         label="Imdb ID"
         value={imdbId}
         onChange={setImdbId}
+        required
       />
 
       <div className="field is-grouped">
